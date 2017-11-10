@@ -81,6 +81,7 @@ options是一个对象参数，可支持的key如下表
 
 #列表头元素layout
 ![layout](https://git.oschina.net/uploads/images/2017/0523/151627_46e0ad19_980808.png "在这里输入图片标题")
+
 自定义的render
 ```
 var layout = [
