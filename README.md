@@ -1,3 +1,5 @@
+# **最新版本是基于layui v2.2.3, 附件中有layui v1.0.7** 
+
 #layui-treeGird
 
 首先介绍一下[layui](https://www.layui.com/)，是一个模块化前端UI框架，遵循原生HTML/CSS/JS的书写与组织形式，门槛极低，拿来即用。
