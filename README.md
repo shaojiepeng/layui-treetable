@@ -1,4 +1,5 @@
 # **最新版本是基于layui v2.2.3, 附件中有layui v1.0.7** 
+demo.html\demo2.html是treetable，demo3.html是带checkbox的tree
 
 #layui-treeGird
 
