@@ -21,12 +21,12 @@ var layout = [
     { name: '菜单名称', treeNodes: true, headerClass: 'value_col', colClass: 'value_col', style: 'width: 60%' }
 ];
 
-layui.use(['tree', 'layer', 'form'], function() {
-    var layer = layui.layer,
-        $ = layui.jquery;
+layui.use(['tree', 'layer'], function() {
+    var layer = layui.layer;
 
-    layui.treeGird({
+    var tree1 = layui.treeGird({
         elem: '#demo', //传入元素选择器
+        spreadable: true, //设置是否全展开，默认不展开
         nodes: [{
                 "id": "1",
                 "name": "父节点1",
