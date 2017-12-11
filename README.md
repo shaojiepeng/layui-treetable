@@ -1,5 +1,21 @@
 # **最新版本是基于layui v2.2.3, 附件中有layui v1.0.7** 
-demo.html\demo2.html是treetable，demo3.html是带checkbox的tree
+demo地址：
+https://shaojiepeng.github.io/layui-treetable/demo.html
+https://shaojiepeng.github.io/layui-treetable/demo2.html
+https://shaojiepeng.github.io/layui-treetable/demo3.html
+
+### 2017.12.11 Updated
+1. 添加expredable参数: 设置展示treetable时是否展开，默认为false; 请参考demo.html
+2. treetable显示多列的方式，参考以下，field的值要跟数据格式中的一致
+```
+var layout = [
+        {name: '菜单名称', treeNodes: true, headerClass: 'value_col', colClass: 'value_col', style: 'width: 40%'},
+        {name: 'Url', field: 'url', headerClass: 'value_col', colClass: 'value_col', style: 'width: 30%'},
+        {name: '操作', headerClass: 'value_col', colClass: 'value_col', style: 'width: 30%', render: function(row) { return render(row)}}
+    ];
+```
+
+
 
 #layui-treeGird
 
