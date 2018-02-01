@@ -1,10 +1,12 @@
 # **最新版本是基于layui v2.2.3, 附件中有layui v1.0.7** 
 demo地址：
 https://shaojiepeng.github.io/layui-treetable/demo.html
-
 https://shaojiepeng.github.io/layui-treetable/demo2.html
-
 https://shaojiepeng.github.io/layui-treetable/demo3.html
+
+### 2018.2.1 Updated
+1. 新增树形菜单全部收起和全部展开功能，调用方式如下：
+![输入图片说明](https://gitee.com/uploads/images/2018/0201/164613_9a74b476_980808.png "微信图片_20180201164558.png")
 
 ### 2017.12.11 Updated
 1. 添加expredable参数: 设置展示treetable时是否展开，默认为false; 请参考demo.html
