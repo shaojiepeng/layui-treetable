@@ -12,6 +12,8 @@
 </head>
 
 <body>
+    <button class="layui-btn" id="expand">全部展开</button>
+    <button class="layui-btn" id="collapse">全部收起</button>
     <div id="demo"></div>
 </body>
 <script src="layui/layui.js"></script>
@@ -22,7 +24,7 @@ var layout = [
 ];
 
 layui.use(['tree', 'layer'], function() {
-    var layer = layui.layer;
+    var layer = layui.layer, $ = layui.jquery;
 
     var tree1 = layui.treeGird({
         elem: '#demo', //传入元素选择器
@@ -55,7 +57,19 @@ layui.use(['tree', 'layer'], function() {
         ],
         layout: layout
     });
+
+    $('#collapse').on('click', function() {
+        layui.collapse(tree1);
+    });
+
+    $('#expand').on('click', function() {
+        layui.expand(tree1);
+    });
+
+    
 });
+
+
 </script>
 
 </html>
