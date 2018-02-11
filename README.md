@@ -1,8 +1,17 @@
 # **最新版本是基于layui v2.2.3, 附件中有layui v1.0.7** 
 demo地址：
 https://shaojiepeng.github.io/layui-treetable/demo.html
+
 https://shaojiepeng.github.io/layui-treetable/demo2.html
+
 https://shaojiepeng.github.io/layui-treetable/demo3.html
+
+### 2018.2.11 Updated
+1. 新增了复选框功能
+使用方式：1. 实例化form 2. 传入checkbox参数 3. form.render()渲染页面
+获取选中的row: layui.getSelected('id');
+![输入图片说明](https://gitee.com/uploads/images/2018/0211/130206_ec642979_980808.png "1.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0211/130310_bc3c9c4f_980808.png "2.png")
 
 ### 2018.2.1 Updated
 1. 新增树形菜单全部收起和全部展开功能，调用方式如下：
