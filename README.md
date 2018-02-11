@@ -8,7 +8,7 @@ https://shaojiepeng.github.io/layui-treetable/demo3.html
 
 ### 2018.2.11 Updated
 新增了复选框功能
-- 这里是列表文本使用方式：1. 实例化form 2. 传入checkbox参数 3. form.render()渲染页面
+- 使用方式：1. 实例化form 2. 传入checkbox参数 3. form.render()渲染页面
 - 获取选中的row: layui.getSelected('id');
 ![输入图片说明](https://gitee.com/uploads/images/2018/0211/130206_ec642979_980808.png "1.png")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0211/130310_bc3c9c4f_980808.png "2.png")
