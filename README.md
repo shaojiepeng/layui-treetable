@@ -7,19 +7,19 @@ https://shaojiepeng.github.io/layui-treetable/demo2.html
 https://shaojiepeng.github.io/layui-treetable/demo3.html
 
 ### 2018.2.11 Updated
-1. 新增了复选框功能
-使用方式：1. 实例化form 2. 传入checkbox参数 3. form.render()渲染页面
-获取选中的row: layui.getSelected('id');
+新增了复选框功能
+- 这里是列表文本使用方式：1. 实例化form 2. 传入checkbox参数 3. form.render()渲染页面
+- 获取选中的row: layui.getSelected('id');
 ![输入图片说明](https://gitee.com/uploads/images/2018/0211/130206_ec642979_980808.png "1.png")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0211/130310_bc3c9c4f_980808.png "2.png")
 
 ### 2018.2.1 Updated
-1. 新增树形菜单全部收起和全部展开功能，调用方式如下：
+新增树形菜单全部收起和全部展开功能，调用方式如下：
 ![输入图片说明](https://gitee.com/uploads/images/2018/0201/164613_9a74b476_980808.png "微信图片_20180201164558.png")
 
 ### 2017.12.11 Updated
-1. 添加expredable参数: 设置展示treetable时是否展开，默认为false; 请参考demo.html
-2. treetable显示多列的方式，参考以下，field的值要跟数据格式中的一致
+- 添加expredable参数: 设置展示treetable时是否展开，默认为false; 请参考demo.html
+- treetable显示多列的方式，参考以下，field的值要跟数据格式中的一致
 ```
 var layout = [
         {name: '菜单名称', treeNodes: true, headerClass: 'value_col', colClass: 'value_col', style: 'width: 40%'},
