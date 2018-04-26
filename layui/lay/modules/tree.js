@@ -423,7 +423,7 @@ layui.define("jquery", function(e) {
                 }
                 var isOpened = treeNode.isOpened;
                 if (isOpened) {
-                    return;
+                    continue;
                 }
                 var e = o('#' + treeNode.id),
                     r = (a.options, e.find(".layui-tree-spread")),
@@ -442,7 +442,7 @@ layui.define("jquery", function(e) {
                 }
                 var isOpened = treeNode.isOpened;
                 if (!isOpened) {
-                    return;
+                    continue;
                 }
                 var e = o('#' + treeNode.id),
                     r = (a.options, e.find(".layui-tree-spread")),
