@@ -3,6 +3,7 @@ layui.define("jquery", function(e) {
     "use strict";
     var o = layui.jquery,
         a = layui.hint(),
+        f = layui.form,
         r = "layui-tree-enter",
         i = function(e) {
             this.options = e
@@ -69,16 +70,36 @@ layui.define("jquery", function(e) {
         }, i.prototype.initGird = function(e) {
             var ob = this, i = ob.options;
             var tableHeaderStr = '<thead><tr>';
-            tableHeaderStr += (i.checkbox == false ? '<th style="width:10px"></th>' : '<th style="width:10px"><!--<input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="*">--></th>');
+            tableHeaderStr += (i.checkbox == false ? '<th style="width:10px"></th>' : '<th style="width:10px"><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="allChoose"></th>');
             for (var ind = 0; ind < i.layout.length; ind++) {
                 var headerClass = i.layout[ind].headerClass ? ' class="' + i.layout[ind].headerClass + '"' : '';
                 tableHeaderStr += '<th' + headerClass + '>' + i.layout[ind].name + '</th>';
             }
             tableHeaderStr += '</tr></thead>';
             tableHeaderStr = o(tableHeaderStr);
-            /*tableHeaderStr.find("input[type=checkbox]").on("click", function(){
-                debugger
-            });*/
+
+            f.on('checkbox(allChoose)', function(data){
+                var child = o(data.elem).parents('table').find('tbody input[type="checkbox"]');  
+                child.each(function(index, item){  
+                    item.checked = data.elem.checked;  
+                });  
+            
+                f.render('checkbox');  
+            });
+
+            f.on('checkbox(*)',function(data){
+                
+                var sib = o(data.elem).parents('table').find('tbody input[type="checkbox"]:checked').length;
+                var total = o(data.elem).parents('table').find('tbody input[type="checkbox"]').length;
+                if(sib == total){
+                    o(data.elem).parents('table').find('thead input[type="checkbox"]').prop("checked",true);
+                    f.render();
+                }else{
+                    o(data.elem).parents('table').find('thead input[type="checkbox"]').prop("checked",false);
+                    f.render();
+                }
+            }); 
+
             tt = new TreeTable();
             var root = {
                 id: 'root',
