@@ -6,6 +6,16 @@ https://shaojiepeng.github.io/layui-treetable/demo2.html
 
 https://shaojiepeng.github.io/layui-treetable/demo3.html
 
+### 2018.4.28 Updated
+添加了全选checkbox
+![输入图片说明](https://gitee.com/uploads/images/2018/0428/162740_290e1b57_980808.png "屏幕截图.png")
+
+另外demo.html删掉部分代码，以免监听事件冲突
+![输入图片说明](https://gitee.com/uploads/images/2018/0428/162914_af28fc70_980808.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0428/162952_51ec9874_980808.png "屏幕截图.png")
+
+
+
 ### 2018.2.11 Updated
 新增了复选框功能
 ![输入图片说明](https://gitee.com/uploads/images/2018/0211/142056_95ca72f8_980808.png "3.png")
@@ -132,4 +142,3 @@ var layout = [
 
 #总结
 灵感来源layui，感谢layui的开源。
-
