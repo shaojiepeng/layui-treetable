@@ -1,5 +1,5 @@
 # **最新版本是基于layui v2.2.3, 附件中有layui v1.0.7** 
-demo地址：  
+demo地址：
 https://shaojiepeng.github.io/layui-treetable/demo.html
 
 https://shaojiepeng.github.io/layui-treetable/demo2.html
@@ -7,7 +7,6 @@ https://shaojiepeng.github.io/layui-treetable/demo2.html
 https://shaojiepeng.github.io/layui-treetable/demo3.html
 
 ### 2018.4.28 Updated
-
 添加了全选checkbox
 
 ![输入图片说明](https://gitee.com/uploads/images/2018/0428/162740_290e1b57_980808.png "屏幕截图.png")
@@ -16,6 +15,8 @@ https://shaojiepeng.github.io/layui-treetable/demo3.html
 
 ![输入图片说明](https://gitee.com/uploads/images/2018/0428/162914_af28fc70_980808.png "屏幕截图.png")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0428/162952_51ec9874_980808.png "屏幕截图.png")
+
+
 
 ### 2018.2.11 Updated
 新增了复选框功能
@@ -143,4 +144,3 @@ var layout = [
 
 #总结
 灵感来源layui，感谢layui的开源。
-
