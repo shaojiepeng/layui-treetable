@@ -100,12 +100,13 @@ layui.define("jquery", function(e) {
                 }
             }); 
 
-            tt = new TreeTable();
+            var treeTable = new TreeTable();
             var root = {
                 id: 'root',
                 children: i.nodes
             }
-            ob.traverseModel(tt, null, root, ['children']);
+            ob.traverseModel(treeTable, null, root, ['children']);
+            tt[e.selector] = treeTable;
             e.addClass("layui-tree"),
                 i.skin && e.addClass("layui-tree-skin-" + i.skin),
                 ob.treeGird(e),
@@ -140,14 +141,15 @@ layui.define("jquery", function(e) {
         }, i.prototype.treeGird = function(e, a) {
             var r = this,
                 i = r.options,
-                n = a || i.nodes;
+                n = a || i.nodes,
+                nt = tt[e.selector];
             layui.each(n, function(a, n) {
                 if (n.children) {
                     layui.each(n.children, function(index, item) {
                         item.pid = n.id;
                     });
                 }
-                var treeNode = tt.mapping[n.id];
+                var treeNode = nt.mapping[n.id];
                 var indent = "";
                 if (treeNode.level > 1) {
                     for (var ind = 1; ind < treeNode.level; ind++) {
@@ -164,7 +166,7 @@ layui.define("jquery", function(e) {
                     str = o(['<tr class="' + (p ? "layui-hide" : "") + '" id="' + n.id + '">', 
                         function() {
                             if (i.checkbox){
-                                return '<td><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="*" value="' + n.id + '"></td>';
+                                return '<td><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="*" value="' + n.id + '" ' + ((n.checked && n.checked == true) ? 'checked="checked"' : "") +'></td>';
                             }else{
                                 return '<td>' + index + '</td>';
                             }
@@ -182,7 +184,7 @@ layui.define("jquery", function(e) {
                             }
                             return ret;
                         }(), "</tr>"].join(""));
-                e.append(str), index++, l && (r.treeGird(e, n.children)), r.spreadGird(str, n), i.drag && r.drag(str, n)
+                e.append(str), index++, l && (r.treeGird(e, n.children)), r.spreadGird(str, n, e.selector), i.drag && r.drag(str, n)
                 r.changed(str, n)
             })
         }, i.prototype.changed = function(e, o) {
@@ -369,13 +371,14 @@ layui.define("jquery", function(e) {
                     e.data("spread") ? (e.data("spread", null), i.removeClass("layui-show"), r.html(t.arrow[0]), n.find(".layui-icon").html(t.branch[0])) : (e.data("spread", !0), i.addClass("layui-show"), r.html(t.arrow[1]), n.find(".layui-icon").html(t.branch[1]))
                 };
             i[0] && (r.on("click", l), n.on("dblclick", l))
-        }, i.prototype.spreadGird = function(e, o) {
+        }, i.prototype.spreadGird = function(e, o, el) {
             var a = this,
                 r = (a.options, e.find(".layui-tree-spread")),
                 nodeId = e[0].id,
                 ri = e.find(".layui-tree-branch"),
+                nt = tt[el],
                 l = function() {
-                    var treeNode = tt.mapping[nodeId];
+                    var treeNode = nt.mapping[nodeId];
                     var isOpened = treeNode.isOpened;
                     a.expand(treeNode, !isOpened, e);
                     isOpened ? (e.data("spread", null), r.html(t.arrow[0]), ri.html(t.branch[0])) : (e.data("spread", !0), r.html(t.arrow[1]), ri.html(t.branch[1]))
@@ -436,11 +439,12 @@ layui.define("jquery", function(e) {
             return t[0] ? v : a.error("layui.tree 没有找到" + e.elem + "元素");
         }), e("expand", function(el) {
             var a = this,
-                oi = new i(el = el || {});
-            for (var key in tt.mapping) {
-                var treeNode = tt.mapping[key];
+                oi = new i(el = el || {}),
+                nt = tt[el.selector];
+            for (var key in nt.mapping) {
+                var treeNode = nt.mapping[key];
                 if (treeNode.id == 'root') {
-                    return;
+                    continue;
                 }
                 var isOpened = treeNode.isOpened;
                 if (isOpened) {
@@ -455,11 +459,12 @@ layui.define("jquery", function(e) {
             }
         }), e("collapse", function(el) {
             var a = this,
-                oi = new i(el = el || {});
-            for (var key in tt.mapping) {
-                var treeNode = tt.mapping[key];
+                oi = new i(el = el || {}),
+                nt = tt[el.selector];
+            for (var key in nt.mapping) {
+                var treeNode = nt.mapping[key];
                 if (treeNode.id == 'root') {
-                    return;
+                    continue;
                 }
                 var isOpened = treeNode.isOpened;
                 if (!isOpened) {
@@ -474,8 +479,9 @@ layui.define("jquery", function(e) {
             }
         }), e("getSelected", function(el){
             var arr = new Array();
+            var nt = tt[el.selector]
             el.find("input[type=checkbox]:checked").each(function(index, el) {
-                var treeNode = tt.mapping[el.value];
+                var treeNode = nt.mapping[el.value];
                 if (treeNode && treeNode.item){
                     arr.push(treeNode.item);
                 }
