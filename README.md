@@ -6,6 +6,11 @@ https://shaojiepeng.github.io/layui-treetable/demo2.html
 
 https://shaojiepeng.github.io/layui-treetable/demo3.html
 
+### 2018.9.10 Updated
+最近项目特别多，好久没更新。
+有同学留言说一个页面多个树形会导致冲突，现已解决。
+请更新最新代码，查看demo.html。
+
 ### 2018.4.28 Updated
 添加了全选checkbox
 
