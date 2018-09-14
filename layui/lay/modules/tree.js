@@ -69,6 +69,7 @@ layui.define("jquery", function(e) {
             e.addClass("layui-box layui-tree"), o.options.skin && e.addClass("layui-tree-skin-" + o.options.skin), o.tree(e), o.on(e)
         }, i.prototype.initGird = function(e) {
             var ob = this, i = ob.options;
+            i = o.extend({}, i, {checkbox: i.checkbox?i.checkbox:false , spreadable :i.spreadable?i.spreadable:false});
             var tableHeaderStr = '<thead><tr>';
             tableHeaderStr += (i.checkbox == false ? '' : '<th style="width:10px"><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="allChoose"></th>');
             for (var ind = 0; ind < i.layout.length; ind++) {
