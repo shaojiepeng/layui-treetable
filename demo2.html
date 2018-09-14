@@ -16,8 +16,8 @@
 </body>
 <script src="layui/layui.js"></script>
 <script type="text/javascript">
-function del(nodeId) {
-    alert(nodeId)
+function del(row) {
+    alert(row)
 }
 
 var layout = [
@@ -28,7 +28,7 @@ var layout = [
         colClass: 'value_col',
         style: 'width: 20%',
         render: function(row) {
-            return '<a class="layui-btn layui-btn-danger layui-btn-mini" onclick="del(' + row.id + ')"><i class="layui-icon">&#xe640;</i> 删除</a>'; //列渲染
+            return "<a class='layui-btn layui-btn-danger layui-btn-sm' onclick='del(" + row + ")'><i class='layui-icon'>&#xe640;</i> 删除</a>"; //列渲染
         }
     },
 ];

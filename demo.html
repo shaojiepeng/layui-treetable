@@ -11,22 +11,37 @@
     <link rel="stylesheet" href="layui/css/layui.css">
 </head>
 
-<body>
-    <button class="layui-btn" id="expand">全部展开菜单1</button>
-    <button class="layui-btn" id="collapse">全部收起菜单1</button>
-    <button class="layui-btn" id="all">获取菜单1选中元素</button>
+<body style="width: 50%; padding: 10px 10px;">
+    <button class="layui-btn layui-btn-sm" id="expand">展开菜单</button>
+    <button class="layui-btn layui-btn-sm" id="collapse">收起菜单</button>
+    <button class="layui-btn layui-btn-sm" id="all">获取选中元素</button>
+    <button class="layui-btn layui-btn-sm" id="addNode">在父节点2添加子节点22</button>
+    <button class="layui-btn layui-btn-sm" id="addNode2">添加父节点4</button>
     <div id="demo"></div>
 
-    <button class="layui-btn" id="expand2">全部展开菜单2</button>
+    <!-- <button class="layui-btn" id="expand2">全部展开菜单2</button>
     <button class="layui-btn" id="collapse2">全部收起菜单2</button>
     <button class="layui-btn" id="all2">获取菜单2选中元素</button>
-    <div id="demo2"></div>
+    <div id="demo2"></div> -->
 </body>
 <script src="layui/layui.js"></script>
 <script type="text/javascript">
 
+function del(row) {
+    alert(row.id)
+}
+
 var layout = [
-    { name: '菜单名称', treeNodes: true, headerClass: 'value_col', colClass: 'value_col', style: '' }
+    { name: '菜单名称', treeNodes: true, headerClass: 'value_col', colClass: 'value_col', style: '' },
+    {
+        name: '操作',
+        headerClass: 'value_col',
+        colClass: 'value_col',
+        style: 'width: 20%',
+        render: function(row) {
+            return "<a class='layui-btn layui-btn-danger layui-btn-sm' onclick='del(" + row + ")'><i class='layui-icon'>&#xe640;</i> 删除</a>"; //列渲染
+        }
+    },
 ];
 
 layui.use(['form', 'tree', 'layer'], function() {
@@ -35,7 +50,7 @@ layui.use(['form', 'tree', 'layer'], function() {
     var tree1 = layui.treeGird({
         elem: '#demo', //传入元素选择器
         spreadable: false, //设置是否全展开，默认不展开
-        checkbox : true,
+        checkbox : false,
         nodes: [{
                 "id": "1",
                 "name": "父节点1",
@@ -62,73 +77,132 @@ layui.use(['form', 'tree', 'layer'], function() {
                         "name": "子节点211"
                     }]
                 }]
-            }
-        ],
-        layout: layout
-    });
-
-
-    var tree2 = layui.treeGird({
-        elem: '#demo2', //传入元素选择器
-        spreadable: true, //设置是否全展开，默认不展开
-        checkbox : true,
-        nodes: [{
-                "id": "d1",
-                "name": "父节点1",
-                "children": [{
-                        "id": "d11",
-                        "name": "子节点11",
-                        "checked" : true
-                    }
-                ]
             },
             {
-                "id": "d2",
-                "name": "父节点2",
-                "children": [{
-                    "id": "d21",
-                    "name": "子节点21",
-                    "children": [{
-                        "id": "d211",
-                        "name": "子节点211"
-                    }]
-                }]
+                "id": "3",
+                "name": "父节点3"
             }
         ],
         layout: layout
     });
+
+
+    // var tree2 = layui.treeGird({
+    //     elem: '#demo2', //传入元素选择器
+    //     spreadable: true, //设置是否全展开，默认不展开
+    //     checkbox : true,
+    //     nodes: [{
+    //             "id": "d1",
+    //             "name": "父节点1",
+    //             "children": [{
+    //                     "id": "d11",
+    //                     "name": "子节点11",
+    //                     "checked" : true
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "id": "d2",
+    //             "name": "父节点2",
+    //             "children": [{
+    //                 "id": "d21",
+    //                 "name": "子节点21",
+    //                 "children": [{
+    //                     "id": "d211",
+    //                     "name": "子节点211"
+    //                 }]
+    //             }]
+    //         }
+    //     ],
+    //     layout: layout
+    // });
 
     form.render();
 
     $('#collapse').on('click', function() {
-        layui.collapse(tree1);
+        tree1.collapse();
     });
 
     $('#expand').on('click', function() {
-        layui.expand(tree1);
+        tree1.expand();
     });
 
     $('#all').on('click', function() {
-        var arr = layui.getSelected(tree1);
-        console.log(arr.length)
+        console.log(tree1.getSelected());
+        console.log(tree1.getNode("12"));
+    });
+
+    $('#addNode').on('click', function() {
+        tree1.addNode(tree1.getNode("2"), {
+            "id": "22", "name": "子节点22", "children": [{
+                "id": "221",
+                "name": "子节点221",
+                "children": [{
+                    "id": "2211",
+                    "name": "子节点2211",
+                    "children": [{
+                        "id": "22111",
+                        "name": "子节点22111"
+                    }]
+                }]
+            },
+            {
+                "id": "222",
+                "name": "子节点222",
+                "children": [{
+                    "id": "2221",
+                    "name": "子节点2221",
+                    "children": [{
+                        "id": "22211",
+                        "name": "子节点22211"
+                    }]
+                }]
+            }]
+        });
+    });
+
+    $('#addNode2').on('click', function() {
+        tree1.addNode(null, {
+            "id": "4", "name": "父节点4", "children": [{
+                "id": "41",
+                "name": "子节点41",
+                "children": [{
+                    "id": "411",
+                    "name": "子节点411",
+                    "children": [{
+                        "id": "4111",
+                        "name": "子节点4111"
+                    }]
+                }]
+            },
+            {
+                "id": "42",
+                "name": "子节点42",
+                "children": [{
+                    "id": "421",
+                    "name": "子节点421",
+                    "children": [{
+                        "id": "4211",
+                        "name": "子节点4211"
+                    }]
+                }]
+            }]
+        });
     });
 
     $('#collapse2').on('click', function() {
-        layui.collapse(tree2);
+        tree2.collapse();
     });
 
     $('#expand2').on('click', function() {
-        layui.expand(tree2);
+        tree2.expand();
     });
 
     $('#all2').on('click', function() {
-        var arr = layui.getSelected(tree2);
-        console.log(arr.length)
+        console.log(tree2.getSelected());
     });
 
 
-
-    
 });
 
 

@@ -70,7 +70,7 @@ layui.define("jquery", function(e) {
         }, i.prototype.initGird = function(e) {
             var ob = this, i = ob.options;
             var tableHeaderStr = '<thead><tr>';
-            tableHeaderStr += (i.checkbox == false ? '<th style="width:10px"></th>' : '<th style="width:10px"><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="allChoose"></th>');
+            tableHeaderStr += (i.checkbox == false ? '' : '<th style="width:10px"><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="allChoose"></th>');
             for (var ind = 0; ind < i.layout.length; ind++) {
                 var headerClass = i.layout[ind].headerClass ? ' class="' + i.layout[ind].headerClass + '"' : '';
                 tableHeaderStr += '<th' + headerClass + '>' + i.layout[ind].name + '</th>';
@@ -167,8 +167,6 @@ layui.define("jquery", function(e) {
                         function() {
                             if (i.checkbox){
                                 return '<td><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="*" value="' + n.id + '" ' + ((n.checked && n.checked == true) ? 'checked="checked"' : "") +'></td>';
-                            }else{
-                                return '<td>' + index + '</td>';
                             }
                         }(), 
                         function() {
@@ -177,14 +175,14 @@ layui.define("jquery", function(e) {
                                 if (i.layout[ind].treeNodes) {
                                     ret += '<td class="' + i.layout[ind].colClass + '" style="' + i.layout[ind].style + '"><li ' + (n.spread ? 'data-spread="' + n.spread + '"' : "") + '>' + (indent + (l ? '<i class="layui-icon layui-tree-spread">' + (n.spread ? t.arrow[1] : t.arrow[0]) + "</i>" : "")) + '<a href="' + (n.href || "javascript:;") + '" ' + (i.target && n.href ? 'target="' + i.target + '"' : "") + ">" + ('<i class="layui-icon layui-tree-' + (l ? "branch" : "leaf") + '">' + (l ? n.spread ? t.branch[1] : t.branch[0] : t.leaf) + "</i>") + ("<cite>" + (n.name || "未命名") + "</cite></a></li></td>");
                                 } else if (i.layout[ind].render) {
-                                    ret += '<td class="' + i.layout[ind].colClass + '" style="' + i.layout[ind].style + '">' + i.layout[ind].render(n) + '</td>'
+                                    ret += '<td class="' + i.layout[ind].colClass + '" style="' + i.layout[ind].style + '">' + i.layout[ind].render(JSON.stringify(n)) + '</td>'
                                 } else {
                                     ret += '<td class="' + i.layout[ind].colClass + '" style="' + i.layout[ind].style + '">' + n[i.layout[ind].field] + '</td>';
                                 }
                             }
                             return ret;
                         }(), "</tr>"].join(""));
-                e.append(str), index++, l && (r.treeGird(e, n.children)), r.spreadGird(str, n, e.selector), i.drag && r.drag(str, n)
+                e.append(str), l && (r.treeGird(e, n.children)), r.spreadGird(str, n, e.selector), i.drag && r.drag(str, n)
                 r.changed(str, n)
             })
         }, i.prototype.changed = function(e, o) {
@@ -428,64 +426,178 @@ layui.define("jquery", function(e) {
                     a = i.move;
                 a.from && (delete a.to, e.removeClass(r))
             })
-        },  e("tree", function(e) {
+        },  i.prototype.getLastChildNode = function(node){
+            var a = this, lastChildNode
+            if (node.children){
+                lastChildNode = this.getLastChildNode(node.children[node.children.length-1]);
+            }else{
+                lastChildNode = node;
+            }
+            return lastChildNode;
+        },  i.prototype.addNodes = function(v, parentNode, newNodes, isLastChild){
+            var a = this,
+                i = a.options,
+                nt = tt[i.elem];
+                layui.each(newNodes, function(an, n) {
+                    if (n.children) {
+                        layui.each(n.children, function (index, item) {
+                            item.pid = n.id;
+                        });
+                    }
+                    var treeNode = nt.mapping[n.id];
+                    var indent = "";
+                    if (treeNode.level > 1) {
+                        for (var ind = 1; ind < treeNode.level; ind++) {
+                            indent += '<span style="display: inline-block;width: 20px;"></span>';
+                        }
+                    }
+                    var p;
+                    if (i.spreadable) {
+                        n.spread = true, p = false, treeNode.isOpened = true;
+                    } else {
+                        p = treeNode.parentId == 'root' ? null : treeNode.parentId;
+                    }
+                    var l = n.children && n.children.length > 0,
+                        str = o(['<tr class="' + (p ? "layui-hide" : "") + '" id="' + n.id + '">', 
+                        function () {
+                            if (i.checkbox) {
+                                return '<td><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="*" value="' + n.id + '" ' + ((n.checked && n.checked == true) ? 'checked="checked"' : "") + '></td>';
+                            }
+                        }(),
+                        function () {
+                            var ret = ""
+                            for (var ind = 0; ind < i.layout.length; ind++) {
+                                if (i.layout[ind].treeNodes) {
+                                    ret += '<td class="' + i.layout[ind].colClass + '" style="' + i.layout[ind].style + '">'
+                                        + '<li ' + (n.spread ? 'data-spread="' + n.spread + '"' : "") + '>'
+                                        + (indent + (l ? '<i class="layui-icon layui-tree-spread">' + (n.spread ? t.arrow[1] : t.arrow[0]) + "</i>" : ""))
+                                        + '<a href="' + (n.href || "javascript:;") + '" ' + (i.target && n.href ? 'target="' + i.target + '"' : "") + ">"
+                                        + ('<i class="layui-icon layui-tree-' + (l ? "branch" : "leaf") + '">'
+                                            + (l ? n.spread ? t.branch[1] : t.branch[0] : t.leaf) + "</i>") + ("<cite>" + (n.name || "未命名") + "</cite></a></li></td>");
+                                } else if (i.layout[ind].render) {
+                                    ret += '<td class="' + i.layout[ind].colClass + '" style="' + i.layout[ind].style + '">' + i.layout[ind].render(JSON.stringify(n)) + '</td>'
+                                } else {
+                                    ret += '<td class="' + i.layout[ind].colClass + '" style="' + i.layout[ind].style + '">' + n[i.layout[ind].field] + '</td>';
+                                }
+                            }
+                            return ret;
+                        }(), "</tr>"].join(""));
+                    if (parentNode) {
+                        var lastChildNode;
+                        if (isLastChild) {
+                            lastChildNode = a.getLastChildNode(parentNode);
+                        }else {
+                            lastChildNode = parentNode;
+                        }
+                        v.find("tbody tr[id="+lastChildNode.id+"]").after(str);
+                    }else{
+                        v.find("tbody").append(str);
+                    }
+                    l && (a.addNodes(v, n, n.children, false)), a.spreadGird(str, n, v.selector), i.drag && a.drag(str, n);
+                    a.changed(str, n)
+                })
+        },
+        e("tree", function(e) {
             var r = new i(e = e || {}),
                 t = o(e.elem);
             return t[0] ? void r.init(t) : a.error("layui.tree 没有找到" + e.elem + "元素");
         }), e("treeGird", function(e) {
             var r = new i(e = e || {}),
-                t = o(e.elem);
-            var v = r.initGird(t);
-            return t[0] ? v : a.error("layui.tree 没有找到" + e.elem + "元素");
-        }), e("expand", function(el) {
-            var a = this,
-                oi = new i(el = el || {}),
-                nt = tt[el.selector];
-            for (var key in nt.mapping) {
-                var treeNode = nt.mapping[key];
-                if (treeNode.id == 'root') {
-                    continue;
+                telem = o(e.elem);
+            var v = r.initGird(telem);
+
+            var funs = {
+                getNode : function(idValue){
+                    if (!idValue) return;
+                    var a = this,
+                        oi = new i(v = v || {}),
+                        nt = tt[v.selector];
+                    for (var key in nt.mapping) {
+                        var treeNode = nt.mapping[key];
+                        if (treeNode.id == idValue) {
+                            return treeNode.item;
+                        }
+                    }
+                },
+                addNode : function(parentNode, newNodes){
+                    var i = r.options,
+                        n = a || i.nodes,
+                        nt = tt[v.selector];
+                        
+                    var arr = [];
+                    if (!Array.isArray(newNodes)){
+                        arr.push(newNodes)
+                    }else{
+                        arr = newNodes;
+                    }
+                    var treeTable = new TreeTable();
+                    
+                    r.traverseModel(treeTable, parentNode? nt.mapping[parentNode.id]:nt.mapping['root'], newNodes, ['children']);
+                    for (var tttt in treeTable.mapping){
+                        if ('root' == tttt) continue;
+                        nt.mapping[tttt] = treeTable.mapping[tttt];
+                    }
+                    r.addNodes(v, parentNode, arr, true);
+                    f.render();
+                },
+                getSelected : function() {
+                    var arr = new Array();
+                    var nt = tt[v.selector]
+                    v.find("input[type=checkbox]:checked").each(function(index, v) {
+                        var treeNode = nt.mapping[v.value];
+                        if (treeNode && treeNode.item){
+                            arr.push(treeNode.item);
+                        }
+                    });
+                    return arr;
+                },
+                expand : function() {
+                    var a = this,
+                        oi = new i(v = v || {}),
+                        nt = tt[v.selector];
+                    for (var key in nt.mapping) {
+                        var treeNode = nt.mapping[key];
+                        if (treeNode.id == 'root') {
+                            continue;
+                        }
+                        var isOpened = treeNode.isOpened;
+                        if (isOpened) {
+                            continue;
+                        }
+                        var e = o('#' + treeNode.id),
+                            r = (a.options, e.find(".layui-tree-spread")),
+                            ri = e.find(".layui-tree-branch");
+                        oi.expand(treeNode, !isOpened, e);
+                        isOpened ? (e.data("spread", null), r.html(t.arrow[0]), ri.html(t.branch[0])) : (e.data("spread", !0), r.html(t.arrow[1]), ri.html(t.branch[1]))
+                        treeNode.isOpened = !isOpened;
+                    }
+                },
+                collapse : function() {
+                    var a = this,
+                        oi = new i(v = v || {}),
+                        nt = tt[v.selector];
+                    for (var key in nt.mapping) {
+                        var treeNode = nt.mapping[key];
+                        if (treeNode.id == 'root') {
+                            continue;
+                        }
+                        var isOpened = treeNode.isOpened;
+                        if (!isOpened) {
+                            continue;
+                        }
+                        var e = o('#' + treeNode.id),
+                            r = (a.options, e.find(".layui-tree-spread")),
+                            ri = e.find(".layui-tree-branch");
+                        oi.expand(treeNode, !isOpened, e);
+                        isOpened ? (e.data("spread", null), r.html(t.arrow[0]), ri.html(t.branch[0])) : (e.data("spread", !0), r.html(t.arrow[1]), ri.html(t.branch[1]))
+                        treeNode.isOpened = !isOpened;
+                    }
                 }
-                var isOpened = treeNode.isOpened;
-                if (isOpened) {
-                    continue;
-                }
-                var e = o('#' + treeNode.id),
-                    r = (a.options, e.find(".layui-tree-spread")),
-                    ri = e.find(".layui-tree-branch");
-                oi.expand(treeNode, !isOpened, e);
-                isOpened ? (e.data("spread", null), r.html(t.arrow[0]), ri.html(t.branch[0])) : (e.data("spread", !0), r.html(t.arrow[1]), ri.html(t.branch[1]))
-                treeNode.isOpened = !isOpened;
             }
-        }), e("collapse", function(el) {
-            var a = this,
-                oi = new i(el = el || {}),
-                nt = tt[el.selector];
-            for (var key in nt.mapping) {
-                var treeNode = nt.mapping[key];
-                if (treeNode.id == 'root') {
-                    continue;
-                }
-                var isOpened = treeNode.isOpened;
-                if (!isOpened) {
-                    continue;
-                }
-                var e = o('#' + treeNode.id),
-                    r = (a.options, e.find(".layui-tree-spread")),
-                    ri = e.find(".layui-tree-branch");
-                oi.expand(treeNode, !isOpened, e);
-                isOpened ? (e.data("spread", null), r.html(t.arrow[0]), ri.html(t.branch[0])) : (e.data("spread", !0), r.html(t.arrow[1]), ri.html(t.branch[1]))
-                treeNode.isOpened = !isOpened;
+
+            for (var key in funs){
+                v[key] = funs[key];
             }
-        }), e("getSelected", function(el){
-            var arr = new Array();
-            var nt = tt[el.selector]
-            el.find("input[type=checkbox]:checked").each(function(index, el) {
-                var treeNode = nt.mapping[el.value];
-                if (treeNode && treeNode.item){
-                    arr.push(treeNode.item);
-                }
-            });
-            return arr;
+            return telem[0] ? v : a.error("layui.tree 没有找到" + e.elem + "元素");
         })
 });
