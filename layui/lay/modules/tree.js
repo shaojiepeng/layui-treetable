@@ -32,7 +32,7 @@ layui.define("jquery", function(e) {
                     var subTreeNode = subTreeNodes[ind];
                     var subTrNode = document.getElementById(subTreeNode.id);
                     if (subTrNode) {
-                        !isOpened ? (e.data("spread", null), subTrNode.setAttribute('class', 'layui-hide')) : (e.data("spread", !0), subTrNode.setAttribute('class', ''))
+                        !isOpened ? (e.data("spread", null), subTrNode.setAttribute('class', 'layui-hide layui-anim layui-anim-fadein')) : (e.data("spread", !0), subTrNode.setAttribute('class', 'layui-anim layui-anim-fadein'))
                     }
                     if (isOpened && !subTreeNode.isOpened) {
                         continue;
@@ -164,7 +164,7 @@ layui.define("jquery", function(e) {
                     p = treeNode.parentId == 'root' ? null : treeNode.parentId;
                 }
                 var l = n.children && n.children.length > 0,
-                    str = o(['<tr class="' + (p ? "layui-hide" : "") + '" id="' + n.id + '">', 
+                    str = o(['<tr class="' + (p ? "layui-hide layui-anim layui-anim-fadein" : "layui-anim layui-anim-fadein") + '" id="' + n.id + '">', 
                         function() {
                             if (i.checkbox){
                                 return '<td><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="*" value="' + n.id + '" ' + ((n.checked && n.checked == true) ? 'checked="checked"' : "") +'></td>';
@@ -459,7 +459,7 @@ layui.define("jquery", function(e) {
                         p = treeNode.parentId == 'root' ? null : treeNode.parentId;
                     }
                     var l = n.children && n.children.length > 0,
-                        str = o(['<tr class="' + (p ? "layui-hide" : "") + '" id="' + n.id + '">', 
+                        str = o(['<tr class="' + (p ? "layui-hide layui-anim layui-anim-fadein" : "layui-anim layui-anim-fadein") + '" id="' + n.id + '">', 
                         function () {
                             if (i.checkbox) {
                                 return '<td><input type="checkbox" name="treeGirdCheckbox" lay-skin="primary" lay-filter="*" value="' + n.id + '" ' + ((n.checked && n.checked == true) ? 'checked="checked"' : "") + '></td>';
