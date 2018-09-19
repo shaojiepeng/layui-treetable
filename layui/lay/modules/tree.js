@@ -458,7 +458,10 @@ layui.define("jquery", function(e) {
                     } else {
                         p = treeNode.parentId == 'root' ? null : treeNode.parentId;
                     }
-                    if (isLastChild) p = nt.mapping[parentNode.id].isOpened ? false : true;
+                    if (isLastChild) {
+                        if (parentNode) p = nt.mapping[parentNode.id].isOpened ? false : true;
+                        else p = false;
+                    }
                     
                     var l = n.children && n.children.length > 0,
                         str = o(['<tr class="' + (p ? "layui-hide layui-anim layui-anim-fadein" : "layui-anim layui-anim-fadein") + '" id="' + n.id + '">', 
