@@ -9,22 +9,59 @@
     <meta name="keywords" content="">
     <link href="" rel="stylesheet">
     <link rel="stylesheet" href="layui/css/layui.css">
+    <style type="text/css">
+        p {
+            margin-bottom: 20px; 
+        }
+    </style>
 </head>
 
-<body style="width: 50%; padding: 10px 10px;">
-    <button class="layui-btn layui-btn-sm" id="expand">展开菜单</button>
-    <button class="layui-btn layui-btn-sm" id="collapse">收起菜单</button>
-    <button class="layui-btn layui-btn-sm" id="all">获取选中元素</button>
-    <button class="layui-btn layui-btn-sm" id="addNode">在父节点2添加子节点22</button>
-    <button class="layui-btn layui-btn-sm" id="addNode2">添加父节点4</button>
-    <div id="demo"></div>
+<body class="layui-row">
+    
+    <div class="layui-col-md3" style="padding: 10px 10px;">
+        <!-- <div id="demo"></div> -->
+    </div>
+    
+    <div class="layui-col-md6" style="padding: 10px 10px;">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>基本功能</legend>
+            <div class="layui-field-box">
+                <p>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="expand" onmouseover="showTips1()">展开</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="collapse" onmouseover="showTips2()">收起</button>
+                </p>
+                <p>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="selected" onmouseover="showTips3()">获取选中节点</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="all" onmouseover="showTips8()">获取所有节点</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="getNode" onmouseover="showTips9()">获取节点信息</button>
+                </p>
+            </div>
+        </fieldset>
 
-    <!-- <button class="layui-btn" id="expand2">全部展开菜单2</button>
-    <button class="layui-btn" id="collapse2">全部收起菜单2</button>
-    <button class="layui-btn" id="all2">获取菜单2选中元素</button>
-    <div id="demo2"></div> -->
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>编辑功能</legend>
+            <div class="layui-field-box">
+                <p>
+                    <button class="layui-btn layui-btn-sm" id="addNode2" onmouseover="showTips4()">添加根节点</button>
+                    <button class="layui-btn layui-btn-sm" id="addNode" onmouseover="showTips5()">添加子节点</button>
+                </p>
+                
+                <p>
+                    <button class="layui-btn layui-btn-sm layui-btn-normal" id="editNode" onmouseover="showTips6()">编辑节点</button>
+                </p>
+
+                <p>
+                    <button class="layui-btn layui-btn-sm layui-btn-danger" id="removeNode" onmouseover="showTips7()">删除节点</button>
+                </p>
+            </div>
+        </fieldset>
+
+        <div id="demo"></div>
+    </div>
+    <div class="layui-col-md3" style="padding: 10px 10px;"></div>
 </body>
 <script src="layui/layui.js"></script>
+<script src="demo.js"></script>
 <script type="text/javascript">
 
 function del(row) {
@@ -47,28 +84,28 @@ var layout = [
 layui.use(['form', 'tree', 'layer'], function() {
     var layer = layui.layer, form = layui.form, $ = layui.jquery;
 
-    var tree1 = layui.treeGird({
+    var tree = layui.treeGird({
         elem: '#demo', //传入元素选择器
         spreadable: false, //设置是否全展开，默认不展开
         checkbox : true,
         nodes: [{
                 "id": "1",
                 "name": "父节点1",
+                "checked" : true,
                 "children": [{
                         "id": "11",
                         "name": "子节点11",
-                        "checked" : true
                     },
                     {
                         "id": "12",
                         "name": "子节点12",
-                        "checked" : true  
                     }
                 ]
             },
             {
                 "id": "2",
                 "name": "父节点2",
+                "checked" : true,
                 "children": [{
                     "id": "21",
                     "name": "子节点21",
@@ -86,54 +123,43 @@ layui.use(['form', 'tree', 'layer'], function() {
         layout: layout
     });
 
-
-    // var tree2 = layui.treeGird({
-    //     elem: '#demo2', //传入元素选择器
-    //     spreadable: true, //设置是否全展开，默认不展开
-    //     checkbox : true,
-    //     nodes: [{
-    //             "id": "d1",
-    //             "name": "父节点1",
-    //             "children": [{
-    //                     "id": "d11",
-    //                     "name": "子节点11",
-    //                     "checked" : true
-    //                 }
-    //             ]
-    //         },
-    //         {
-    //             "id": "d2",
-    //             "name": "父节点2",
-    //             "children": [{
-    //                 "id": "d21",
-    //                 "name": "子节点21",
-    //                 "children": [{
-    //                     "id": "d211",
-    //                     "name": "子节点211"
-    //                 }]
-    //             }]
-    //         }
-    //     ],
-    //     layout: layout
-    // });
-
     form.render();
 
     $('#collapse').on('click', function() {
-        tree1.collapse();
+        tree.collapse();
     });
 
     $('#expand').on('click', function() {
-        tree1.expand();
+        tree.expand();
+    });
+
+    $('#selected').on('click', function() {
+        console.log(tree.getSelected());
+        alert(JSON.stringify(tree.getSelected()));
+    });
+
+    $('#editNode').on('click', function() {
+        var node = tree.getNode("3");
+        node.name = '我就是变个名字';
+        tree.editNodeName(node);
+    });
+
+    $('#removeNode').on('click', function() {
+        var node = tree.getNode("2");
+        tree.removeNode(node);
+    });
+
+    $('#getNode').on('click', function() {
+        var node = tree.getNode("2");
+        alert(JSON.stringify(node));
     });
 
     $('#all').on('click', function() {
-        console.log(tree1.getSelected());
-        console.log(tree1.getNode("12"));
+        alert(JSON.stringify(tree.getNodes()));
     });
 
     $('#addNode').on('click', function() {
-        tree1.addNode(tree1.getNode("2"), {
+        tree.addNode(tree.getNode("2"), {
             "id": "22", "name": "子节点22", "children": [{
                 "id": "221",
                 "name": "子节点221",
@@ -162,7 +188,7 @@ layui.use(['form', 'tree', 'layer'], function() {
     });
 
     $('#addNode2').on('click', function() {
-        tree1.addNode(null, {
+        tree.addNode(null, {
             "id": "4", "name": "父节点4", "children": [{
                 "id": "41",
                 "name": "子节点41",
@@ -189,19 +215,6 @@ layui.use(['form', 'tree', 'layer'], function() {
             }]
         });
     });
-
-    $('#collapse2').on('click', function() {
-        tree2.collapse();
-    });
-
-    $('#expand2').on('click', function() {
-        tree2.expand();
-    });
-
-    $('#all2').on('click', function() {
-        console.log(tree2.getSelected());
-    });
-
 
 });
 

@@ -13,6 +13,7 @@
 
 <body style="width: 50%; padding: 10px 10px;">
     <div id="demo"></div>
+    <div id="demo2"></div>
 </body>
 <script src="layui/layui.js"></script>
 <script type="text/javascript">
@@ -21,7 +22,7 @@ function del(row) {
 }
 
 var layout = [
-    { name: '菜单名称', treeNodes: true, headerClass: 'value_col', colClass: 'value_col', style: 'width: 60%' },
+    { name: '菜单名称', treeNodes: true, headerClass: 'value_col', colClass: 'value_col', style: '' },
     {
         name: '操作',
         headerClass: 'value_col',
@@ -34,10 +35,11 @@ var layout = [
 ];
 
 layui.use(['form', 'tree', 'layer'], function() {
-    var layer = layui.layer;
+    var layer = layui.layer, form = layui.form, $ = layui.jquery;
 
-    layui.treeGird({
+    var tree1 = layui.treeGird({
         elem: '#demo', //传入元素选择器
+        checkbox: true,
         nodes: [{
                 "id": "1",
                 "name": "父节点1",
@@ -66,7 +68,42 @@ layui.use(['form', 'tree', 'layer'], function() {
         ],
         layout: layout
     });
+
+    var tree2 = layui.treeGird({
+        elem: '#demo2', //传入元素选择器
+        spreadable: true, //设置是否全展开，默认不展开
+        checkbox: false,
+        nodes: [{
+            "id": "d1",
+            "name": "父节点1",
+            "children": [{
+                "id": "d11",
+                "name": "子节点11",
+                "checked": true
+            }
+            ]
+        },
+        {
+            "id": "d2",
+            "name": "父节点2",
+            "children": [{
+                "id": "d21",
+                "name": "子节点21",
+                "children": [{
+                    "id": "d211",
+                    "name": "子节点211"
+                }]
+            }]
+        }
+        ],
+        layout: layout
+    });
+
+    form.render();
 });
+
+    
+
 </script>
 
 </html>

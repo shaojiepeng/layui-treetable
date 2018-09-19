@@ -458,6 +458,8 @@ layui.define("jquery", function(e) {
                     } else {
                         p = treeNode.parentId == 'root' ? null : treeNode.parentId;
                     }
+                    if (isLastChild) p = nt.mapping[parentNode.id].isOpened ? false : true;
+                    
                     var l = n.children && n.children.length > 0,
                         str = o(['<tr class="' + (p ? "layui-hide layui-anim layui-anim-fadein" : "layui-anim layui-anim-fadein") + '" id="' + n.id + '">', 
                         function () {
@@ -497,8 +499,17 @@ layui.define("jquery", function(e) {
                     l && (a.addNodes(v, n, n.children, false)), a.spreadGird(str, n, v.selector), i.drag && a.drag(str, n);
                     a.changed(str, n)
                 })
-        },
-        e("tree", function(e) {
+        }, i.prototype.removeNodes = function(v, treeNode){
+            var a = this, i = a.options, nt = tt[i.elem];
+            delete nt.mapping[treeNode.id];
+
+            var trNode = v.find("tbody tr[id="+treeNode.id+"]");
+            trNode.remove();
+
+            for (var i = 0; i <  treeNode.nodes.length; i++){
+                a.removeNodes(v, nt.mapping[treeNode.nodes[i].id])
+            }
+        },e("tree", function(e) {
             var r = new i(e = e || {}),
                 t = o(e.elem);
             return t[0] ? void r.init(t) : a.error("layui.tree 没有找到" + e.elem + "元素");
@@ -519,8 +530,19 @@ layui.define("jquery", function(e) {
                             return treeNode.item;
                         }
                     }
-                },
-                addNode : function(parentNode, newNodes){
+                },getNodes : function(){
+                    var a = this,
+                        oi = new i(v = v || {}),
+                        nt = tt[v.selector];
+                    var arr = new Array();
+                    for (var key in nt.mapping) {
+                        var treeNode = nt.mapping[key];
+                        if (treeNode && treeNode.item){
+                            arr.push(treeNode.item);
+                        }
+                    }
+                    return arr;
+                },addNode : function(parentNode, newNodes){
                     var i = r.options,
                         n = a || i.nodes,
                         nt = tt[v.selector];
@@ -540,8 +562,20 @@ layui.define("jquery", function(e) {
                     }
                     r.addNodes(v, parentNode, arr, true);
                     f.render();
-                },
-                getSelected : function() {
+                },editNodeName : function(node){
+                    var i = r.options, n = a || i.nodes, nt = tt[v.selector];
+                    var treeNode = nt.mapping[node.id];
+                    treeNode.item = node;
+
+                    var trNode = v.find("tbody tr[id="+node.id+"] td li a cite");
+                    trNode.text(node.name);
+                    f.render();
+                },removeNode : function(node){
+                    var i = r.options, n = a || i.nodes, nt = tt[v.selector];
+                    var treeNode = nt.mapping[node.id];
+                    r.removeNodes(v, treeNode);
+                    f.render();
+                },getSelected : function() {
                     var arr = new Array();
                     var nt = tt[v.selector]
                     v.find("input[type=checkbox]:checked").each(function(index, v) {
@@ -551,8 +585,7 @@ layui.define("jquery", function(e) {
                         }
                     });
                     return arr;
-                },
-                expand : function() {
+                },expand : function() {
                     var a = this,
                         oi = new i(v = v || {}),
                         nt = tt[v.selector];
@@ -572,8 +605,7 @@ layui.define("jquery", function(e) {
                         isOpened ? (e.data("spread", null), r.html(t.arrow[0]), ri.html(t.branch[0])) : (e.data("spread", !0), r.html(t.arrow[1]), ri.html(t.branch[1]))
                         treeNode.isOpened = !isOpened;
                     }
-                },
-                collapse : function() {
+                },collapse : function() {
                     var a = this,
                         oi = new i(v = v || {}),
                         nt = tt[v.selector];
