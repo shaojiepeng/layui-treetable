@@ -540,7 +540,7 @@ layui.define("jquery", function(e) {
                     var arr = new Array();
                     for (var key in nt.mapping) {
                         var treeNode = nt.mapping[key];
-                        if (treeNode && treeNode.item){
+                        if (treeNode && treeNode.item && treeNode.id != 'root'){
                             arr.push(treeNode.item);
                         }
                     }
@@ -583,7 +583,7 @@ layui.define("jquery", function(e) {
                     var nt = tt[v.selector]
                     v.find("input[type=checkbox]:checked").each(function(index, v) {
                         var treeNode = nt.mapping[v.value];
-                        if (treeNode && treeNode.item){
+                        if (treeNode && treeNode.item && treeNode.id != 'root'){
                             arr.push(treeNode.item);
                         }
                     });
