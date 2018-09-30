@@ -62,3 +62,37 @@ function showTips9() {
     })
 }
 
+function showTips10() {
+    layer.tips('销毁treetable', '#destory', {
+        tips: [1, '#3595CC'],
+        time: 3000
+    })
+}
+
+function showTips11() {
+    layer.tips('展开指定节点', '#expandNode', {
+        tips: [1, '#3595CC'],
+        time: 3000
+    })
+}
+
+function showTips12() {
+    layer.tips('折叠指定节点', '#collapseNode', {
+        tips: [1, '#3595CC'],
+        time: 3000
+    })
+}
+
+function showTips13() {
+    layer.tips('勾选 单个节点。', '#checkNode', {
+        tips: [1, '#3595CC'],
+        time: 3000
+    })
+}
+
+function showTips14() {
+    layer.tips('取消勾选 单个节点。', '#uncheckNode', {
+        tips: [2, '#3595CC'],
+        time: 3000
+    })
+}

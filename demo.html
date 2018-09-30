@@ -29,11 +29,20 @@
                 <p>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="expand" onmouseover="showTips1()">展开</button>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="collapse" onmouseover="showTips2()">收起</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="destory" onmouseover="showTips10()">销毁</button>
                 </p>
                 <p>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="selected" onmouseover="showTips3()">获取选中节点</button>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="all" onmouseover="showTips8()">获取所有节点</button>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="getNode" onmouseover="showTips9()">获取节点信息</button>
+                </p>
+                <p>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="expandNode" onmouseover="showTips11()">展开节点</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="collapseNode" onmouseover="showTips12()">折叠节点</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="checkNode" onmouseover="showTips13()">勾选节点</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="uncheckNode" onmouseover="showTips14()">取消勾选节点</button>
+                </p>
+                <p>
                 </p>
             </div>
         </fieldset>
@@ -81,17 +90,17 @@ var layout = [
     },
 ];
 
-layui.use(['form', 'tree', 'layer'], function() {
+layui.use(['form', 'treetable', 'layer'], function() {
     var layer = layui.layer, form = layui.form, $ = layui.jquery;
 
-    var tree = layui.treeGird({
+    var tree = layui.treetable({
         elem: '#demo', //传入元素选择器
         spreadable: false, //设置是否全展开，默认不展开
         checkbox : true,
         nodes: [{
                 "id": "1",
                 "name": "父节点1",
-                "checked" : true,
+                "checked" : false,
                 "children": [{
                         "id": "11",
                         "name": "子节点11",
@@ -214,6 +223,26 @@ layui.use(['form', 'tree', 'layer'], function() {
                 }]
             }]
         });
+    });
+
+    $('#destory').on('click', function() {
+        tree.destory();
+    });
+    
+    $('#expandNode').on('click', function() {
+        tree.expandNode(tree.getNode("2"), false);
+    });
+
+    $('#collapseNode').on('click', function() {
+        tree.collapseNode(tree.getNode("2"), false);
+    });
+
+    $('#checkNode').on('click', function() {
+        tree.checkNode(tree.getNode("1"), true);
+    });
+
+    $('#uncheckNode').on('click', function() {
+        tree.checkNode(tree.getNode("1"), false);
     });
 
 });
