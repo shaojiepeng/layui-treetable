@@ -444,7 +444,7 @@ layui.define("jquery", function(e) {
                                         + (indent + (l ? '<i class="layui-icon layui-tree-spread">' + (n.spread ? t.arrow[1] : t.arrow[0]) + "</i>" : ""))
                                         + '<a href="' + (n.href || "javascript:;") + '" ' + (i.target && n.href ? 'target="' + i.target + '"' : "") + ">"
                                         + ('<i class="layui-icon layui-tree-' + (l ? "branch" : "leaf") + ' '+(l ? n.spread ? t.branch[1] : t.branch[0] : t.leaf)+' ">'
-                                            +  + "</i>") + ("<cite>" + (n.name || "未命名") + "</cite></a></li></td>");
+                                        + "</i>") + ("<cite>" + (n.name || "未命名") + "</cite></a></li></td>");
                                 } else if (i.layout[ind].render) {
                                     ret += '<td class="' + i.layout[ind].colClass + '" style="' + i.layout[ind].style + '">' + i.layout[ind].render(JSON.stringify(n)) + '</td>'
                                 } else {
@@ -640,6 +640,13 @@ layui.define("jquery", function(e) {
                     ck.find('input[type=checkbox]').attr("checked", check);
                     ck.find('input[type=checkbox]')[0].checked = check;
                     check ? ck.find('.layui-form-checkbox').addClass('layui-form-checked') : ck.find('.layui-form-checkbox').removeClass('layui-form-checked')
+                }, setChkDisabled : function(node, disabled){
+                    var a = this,
+                        oi = new i(v = v || {}),
+                        nt = tt[v.selector];
+                    var ck = v.find("tbody tr[id=" + node.id + "] ");
+                    ck.find('input[type=checkbox]').attr("disabled",disabled);
+                    disabled ? ck.find('.layui-form-checkbox').addClass('layui-checkbox-disbaled layui-disabled') : ck.find('.layui-form-checkbox').removeClass('layui-checkbox-disbaled layui-disabled');
                 }
             }
             for (var key in funs){
