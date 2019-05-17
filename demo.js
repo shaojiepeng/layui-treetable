@@ -96,3 +96,17 @@ function showTips14() {
         time: 3000
     })
 }
+
+function showTips15() {
+    layer.tips('禁用父节点1的checkbox', '#disableNode', {
+        tips: [2, '#3595CC'],
+        time: 3000
+    })
+}
+
+function showTips16() {
+    layer.tips('解禁父节点1的checkbox', '#ableNode', {
+        tips: [2, '#3595CC'],
+        time: 3000
+    })
+}

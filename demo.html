@@ -43,6 +43,8 @@
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="uncheckNode" onmouseover="showTips14()">取消勾选节点</button>
                 </p>
                 <p>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="disableNode" onmouseover="showTips15()">禁用checkbox</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="ableNode" onmouseover="showTips16()">解禁checkbox</button>
                 </p>
             </div>
         </fieldset>
@@ -79,6 +81,8 @@ function del(row) {
 
 var layout = [
     { name: '菜单名称', treeNodes: true, headerClass: 'value_col', colClass: 'value_col', style: '' },
+    { name: 'id', field: 'id', headerClass: 'value_col', colClass: 'value_col', style: ''},
+    { name: '文本', field: 'text', headerClass: 'value_col', colClass: 'value_col', style: ''},
     {
         name: '操作',
         headerClass: 'value_col',
@@ -100,33 +104,40 @@ layui.use(['form', 'treetable', 'layer'], function() {
         nodes: [{
                 "id": "1",
                 "name": "父节点1",
+                "text":"测试",
                 "checked" : false,
                 "children": [{
                         "id": "11",
                         "name": "子节点11",
+                        "text":""
                     },
                     {
                         "id": "12",
                         "name": "子节点12",
+                        "text":""
                     }
                 ]
             },
             {
                 "id": "2",
                 "name": "父节点2",
+                "text":"",
                 "checked" : true,
                 "children": [{
                     "id": "21",
                     "name": "子节点21",
+                    "text":"",
                     "children": [{
                         "id": "211",
-                        "name": "子节点211"
+                        "name": "子节点211",
+                        "text":""
                     }]
                 }]
             },
             {
                 "id": "3",
-                "name": "父节点3"
+                "name": "父节点3",
+                "text":"",
             }
         ],
         layout: layout
@@ -169,27 +180,33 @@ layui.use(['form', 'treetable', 'layer'], function() {
 
     $('#addNode').on('click', function() {
         tree.addNode(tree.getNode("2"), {
-            "id": "22", "name": "子节点22", "children": [{
+            "id": "22", "name": "子节点22", "text":"", "children": [{
                 "id": "221",
                 "name": "子节点221",
+                "text":"",
                 "children": [{
                     "id": "2211",
                     "name": "子节点2211",
+                    "text":"",
                     "children": [{
                         "id": "22111",
-                        "name": "子节点22111"
+                        "name": "子节点22111",
+                        "text":"",
                     }]
                 }]
             },
             {
                 "id": "222",
                 "name": "子节点222",
+                "text":"",
                 "children": [{
                     "id": "2221",
                     "name": "子节点2221",
+                    "text":"",
                     "children": [{
                         "id": "22211",
-                        "name": "子节点22211"
+                        "name": "子节点22211",
+                        "text":"",
                     }]
                 }]
             }]
@@ -198,27 +215,33 @@ layui.use(['form', 'treetable', 'layer'], function() {
 
     $('#addNode2').on('click', function() {
         tree.addNode(null, {
-            "id": "4", "name": "父节点4", "children": [{
+            "id": "4", "name": "父节点4", "text":"", "children": [{
                 "id": "41",
                 "name": "子节点41",
+                "text":"",
                 "children": [{
                     "id": "411",
                     "name": "子节点411",
+                    "text":"",
                     "children": [{
                         "id": "4111",
-                        "name": "子节点4111"
+                        "name": "子节点4111",
+                        "text":"",
                     }]
                 }]
             },
             {
                 "id": "42",
                 "name": "子节点42",
+                "text":"",
                 "children": [{
                     "id": "421",
                     "name": "子节点421",
+                    "text":"",
                     "children": [{
                         "id": "4211",
-                        "name": "子节点4211"
+                        "name": "子节点4211",
+                        "text":"",
                     }]
                 }]
             }]
@@ -243,6 +266,14 @@ layui.use(['form', 'treetable', 'layer'], function() {
 
     $('#uncheckNode').on('click', function() {
         tree.checkNode(tree.getNode("1"), false);
+    });
+
+    $('#disableNode').on('click', function() {
+        tree.setChkDisabled(tree.getNode("1"), true);
+    });
+
+    $('#ableNode').on('click', function() {
+        tree.setChkDisabled(tree.getNode("1"), false);
     });
 
 });
