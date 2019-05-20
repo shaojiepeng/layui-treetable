@@ -49,6 +49,10 @@
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="disableNode" onmouseover="showTips15()">禁用checkbox</button>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="ableNode" onmouseover="showTips16()">解禁checkbox</button>
                 </p>
+                <p>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="getNodeByParam" onmouseover="showTips20()">查找节点</button>
+                    
+                </p>
             </div>
         </fieldset>
 
@@ -179,6 +183,11 @@ layui.use(['form', 'treetable', 'layer'], function() {
 
     $('#getNode').on('click', function() {
         var node = tree.getNode("2");
+        alert(JSON.stringify(node));
+    });
+
+    $('#getNodeByParam').on('click', function() {
+        var node = tree.getNodeByParam("name", "子节点21", tree.getNode("1"));
         alert(JSON.stringify(node));
     });
 

@@ -42,7 +42,7 @@ function showTips6() {
 }
 
 function showTips7() {
-    layer.tips('删除父节点2，所有子节点一起删除喔', '#removeNode', {
+    layer.tips('删除父节点2，所有子节点一起删除', '#removeNode', {
         tips: [1, '#3595CC'],
         time: 3000
     })
@@ -129,5 +129,12 @@ function showTips19() {
     layer.tips('取消勾选全部节点', '#unCheckAllNode', {
         tips: [2, '#3595CC'],
         time: 3000
+    })
+}
+
+function showTips20() {
+    layer.tips('根据节点数据的属性搜索，获取条件完全匹配的节点数据 JSON 对象，查找name=父节点1的节点', '#getNodeByParam', {
+        tips: [2, '#3595CC'],
+        time: 4000
     })
 }

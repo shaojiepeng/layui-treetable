@@ -519,12 +519,39 @@ layui.define("jquery", function(e) {
                             return treeNode.item;
                         }
                     }
-                },getNodes : function(){
+                }, getNodeByParam : function(key, value, parentNode){
+                    if (key == null || value == null) return;
+                    var a = this,
+                        oi = new i(v = v || {}),
+                        nt = tt[v.selector];
+                    var arr = new Array();
+                    for (var k in nt.mapping) {
+                        var treeNode = nt.mapping[k];
+                        if (treeNode.item[key] == value) {
+                            var node = parentNode == null ? arr.push(treeNode.item):(parentNode.id == treeNode.parent.id ? arr.push(treeNode.item) : null);
+                            return node;
+                        }
+                    }
+                    return arr;
+                }, getNodesByParam : function(key, value, parentNode){
+                    if (key == null || value == null) return;
+                    var a = this,
+                        oi = new i(v = v || {}),
+                        nt = tt[v.selector];
+                    var arr = new Array();
+                    for (var k in nt.mapping) {
+                        var treeNode = nt.mapping[k];
+                        if (treeNode.item[key] == value) {
+                            parentNode == null ? arr.push(treeNode.item):(parentNode.id == treeNode.parent.id ? arr.push(treeNode.item) : null);
+                        }
+                    }
+                    return arr;
+                }, getNodes : function(){
                     var a = this,
                         oi = new i(v = v || {}),
                         nt = tt[v.selector];
                     
-                    var arr = new Array();
+                   
                     for (var key in nt.mapping) {
                         var treeNode = nt.mapping[key];
                         if (treeNode && treeNode.item && treeNode.id != 'root'){
