@@ -70,28 +70,28 @@ function showTips10() {
 }
 
 function showTips11() {
-    layer.tips('展开指定节点', '#expandNode', {
+    layer.tips('展开指定节点：父节点2', '#expandNode', {
         tips: [1, '#3595CC'],
         time: 3000
     })
 }
 
 function showTips12() {
-    layer.tips('折叠指定节点', '#collapseNode', {
+    layer.tips('折叠指定节点：父节点2', '#collapseNode', {
         tips: [1, '#3595CC'],
         time: 3000
     })
 }
 
 function showTips13() {
-    layer.tips('勾选 单个节点。', '#checkNode', {
+    layer.tips('勾选 单个节点：父节点1。', '#checkNode', {
         tips: [1, '#3595CC'],
         time: 3000
     })
 }
 
 function showTips14() {
-    layer.tips('取消勾选 单个节点。', '#uncheckNode', {
+    layer.tips('取消勾选 单个节点：父节点1。', '#uncheckNode', {
         tips: [2, '#3595CC'],
         time: 3000
     })
@@ -106,6 +106,27 @@ function showTips15() {
 
 function showTips16() {
     layer.tips('解禁父节点1的checkbox', '#ableNode', {
+        tips: [2, '#3595CC'],
+        time: 3000
+    })
+}
+
+function showTips17() {
+    layer.tips('获取所有未选中节点的信息', '#unSelected', {
+        tips: [2, '#3595CC'],
+        time: 3000
+    })
+}
+
+function showTips18() {
+    layer.tips('勾选全部节点', '#checkAllNode', {
+        tips: [2, '#3595CC'],
+        time: 3000
+    })
+}
+
+function showTips19() {
+    layer.tips('取消勾选全部节点', '#unCheckAllNode', {
         tips: [2, '#3595CC'],
         time: 3000
     })

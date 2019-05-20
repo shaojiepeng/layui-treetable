@@ -575,6 +575,16 @@ layui.define("jquery", function(e) {
                         }
                     });
                     return arr;
+                },getUnSelected : function() {
+                    var arr = new Array();
+                    var nt = tt[v.selector]
+                    o(e.elem).find("input[type=checkbox]:not(:checked)").each(function(index, v) {
+                        var treeNode = nt.mapping[v.value];
+                        if (treeNode && treeNode.item && treeNode.id != 'root'){
+                            arr.push(treeNode.item);
+                        }
+                    });
+                    return arr;
                 },expand : function() {
                     var a = this,
                         oi = new i(v = v || {}),
@@ -635,7 +645,6 @@ layui.define("jquery", function(e) {
                     var a = this, 
                         oi = new i(v = v || {}),
                         nt = tt[v.selector];
-
                     var ck = v.find("tbody tr[id=" + node.id + "] ");
                     ck.find('input[type=checkbox]').attr("checked", check);
                     ck.find('input[type=checkbox]')[0].checked = check;
@@ -647,6 +656,24 @@ layui.define("jquery", function(e) {
                     var ck = v.find("tbody tr[id=" + node.id + "] ");
                     ck.find('input[type=checkbox]').attr("disabled",disabled);
                     disabled ? ck.find('.layui-form-checkbox').addClass('layui-checkbox-disbaled layui-disabled') : ck.find('.layui-form-checkbox').removeClass('layui-checkbox-disbaled layui-disabled');
+                }, checkAllNodes : function(check){
+                    var a = this,
+                        oi = new i(v = v || {}),
+                        nt = tt[v.selector];
+
+                    for (var key in nt.mapping) {
+                        var treeNode = nt.mapping[key];
+                        if (treeNode && treeNode.item && treeNode.id != 'root'){
+                            var ck = v.find("tbody tr[id=" + treeNode.id + "] ");
+                            ck.find('input[type=checkbox]').attr("checked", check);
+                            ck.find('input[type=checkbox]')[0].checked = check;
+                            check ? ck.find('.layui-form-checkbox').addClass('layui-form-checked') : ck.find('.layui-form-checkbox').removeClass('layui-form-checked')
+                        }
+                    }
+                    var all = v.find('thead input[type="checkbox"]');
+                    all.attr("checked", check);
+                    all[0].checked = check;
+                    check ? all.parents('tr').find('.layui-form-checkbox').addClass('layui-form-checked') : all.parents('tr').find('.layui-form-checkbox').removeClass('layui-form-checked')
                 }
             }
             for (var key in funs){

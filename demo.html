@@ -32,8 +32,9 @@
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="destory" onmouseover="showTips10()">销毁</button>
                 </p>
                 <p>
-                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="selected" onmouseover="showTips3()">获取选中节点</button>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="all" onmouseover="showTips8()">获取所有节点</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="selected" onmouseover="showTips3()">获取选中节点</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="unSelected" onmouseover="showTips17()">获取未选中节点</button>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="getNode" onmouseover="showTips9()">获取节点信息</button>
                 </p>
                 <p>
@@ -41,6 +42,8 @@
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="collapseNode" onmouseover="showTips12()">折叠节点</button>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="checkNode" onmouseover="showTips13()">勾选节点</button>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="uncheckNode" onmouseover="showTips14()">取消勾选节点</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="checkAllNode" onmouseover="showTips18()">勾选全部节点</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="unCheckAllNode" onmouseover="showTips19()">取消勾选全部节点</button>
                 </p>
                 <p>
                     <button class="layui-btn layui-btn-sm layui-btn-primary" id="disableNode" onmouseover="showTips15()">禁用checkbox</button>
@@ -156,6 +159,11 @@ layui.use(['form', 'treetable', 'layer'], function() {
     $('#selected').on('click', function() {
         console.log(tree.getSelected());
         alert(JSON.stringify(tree.getSelected()));
+    });
+
+    $('#unSelected').on('click', function() {
+        console.log(tree.getUnSelected());
+        alert(JSON.stringify(tree.getUnSelected()));
     });
 
     $('#editNode').on('click', function() {
@@ -274,6 +282,14 @@ layui.use(['form', 'treetable', 'layer'], function() {
 
     $('#ableNode').on('click', function() {
         tree.setChkDisabled(tree.getNode("1"), false);
+    });
+
+    $('#checkAllNode').on('click', function() {
+        tree.checkAllNodes(true);
+    });
+
+    $('#unCheckAllNode').on('click', function() {
+        tree.checkAllNodes(false);
     });
 
 });
