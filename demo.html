@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+        
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -13,15 +13,17 @@
         p {
             margin-bottom: 20px; 
         }
+        .layui-form-checkbox[lay-skin=primary] {
+            padding-left: 0
+        }
     </style>
 </head>
 
 <body class="layui-row">
-    
     <div class="layui-col-md3" style="padding: 10px 10px;">
         <!-- <div id="demo"></div> -->
     </div>
-    
+    <a href='https://gitee.com/shaojiepeng/layui-treetable'><img src='https://gitee.com/shaojiepeng/layui-treetable/widgets/widget_5.svg' alt='Fork me on Gitee'></img></a>
     <div class="layui-col-md6" style="padding: 10px 10px;">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>基本功能</legend>
@@ -147,8 +149,20 @@ layui.use(['form', 'treetable', 'layer'], function() {
                 "text":"",
             }
         ],
-        layout: layout
+        layout: layout,
+        callback: {
+            beforeCheck : treetableBeforeCheck,
+            onCheck : treetableOnCheck
+        }
     });
+
+    function treetableOnCheck(node){
+        alert(node);
+    }
+
+    function treetableBeforeCheck(node){
+        return false;
+    }
 
     form.render();
 
@@ -187,7 +201,7 @@ layui.use(['form', 'treetable', 'layer'], function() {
     });
 
     $('#getNodeByParam').on('click', function() {
-        var node = tree.getNodeByParam("name", "子节点21", tree.getNode("1"));
+        var node = tree.getNodeByParam("name", "子节点21", null);
         alert(JSON.stringify(node));
     });
 

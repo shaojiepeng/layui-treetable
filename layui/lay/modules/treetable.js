@@ -16,6 +16,10 @@ layui.define("jquery", function(e) {
 			leaf: "leaf"
 		},
         tt = {},
+        callback = {
+
+
+        },
         TreeTable = function() {
             this.mapping = {};
         },
@@ -75,28 +79,6 @@ layui.define("jquery", function(e) {
             tableHeaderStr += '</tr></thead>';
             tableHeaderStr = o(tableHeaderStr);
 
-            f.on('checkbox(allChoose)', function(data){
-                var child = o(data.elem).parents('table').find('tbody input[type="checkbox"]');  
-                child.each(function(index, item){  
-                    item.checked = data.elem.checked;  
-                });  
-            
-                f.render('checkbox');  
-            });
-
-            f.on('checkbox(*)',function(data){
-                
-                var sib = o(data.elem).parents('table').find('tbody input[type="checkbox"]:checked').length;
-                var total = o(data.elem).parents('table').find('tbody input[type="checkbox"]').length;
-                if(sib == total){
-                    o(data.elem).parents('table').find('thead input[type="checkbox"]').prop("checked",true);
-                    f.render();
-                }else{
-                    o(data.elem).parents('table').find('thead input[type="checkbox"]').prop("checked",false);
-                    f.render();
-                }
-            }); 
-
             var treeTable = new TreeTable();
             var root = {
                 id: 'root',
@@ -106,7 +88,7 @@ layui.define("jquery", function(e) {
             tt[e.selector] = treeTable;
             e.addClass("layui-tree layui-treetable"),
                 i.skin && e.addClass("layui-tree-skin-" + i.skin),
-                ob.treeGird(e),
+                ob.treeGird(e), ob.checkboxEvent(e, i),
                 e.wrapInner('<tbody></tbody'),
                 e.prepend(tableHeaderStr),
                 e.wrapInner('<table class="layui-table"></table>'),
@@ -157,10 +139,56 @@ layui.define("jquery", function(e) {
                             }
                             return ret;
                         }(), "</tr>"].join(""));
-                e.append(str), l && (r.treeGird(e, n.children)), r.spreadGird(str, n, e.selector), i.drag && r.drag(str, n)
+                e.append(str), l && (r.treeGird(e, n.children)), r.spreadGird(str, n, e.selector), i.drag && r.drag(str, n);
                 r.changed(str, n)
+                // typeof i.callback.onCheck === 'function' && r.onCheck(str, n)
             })
-        }, i.prototype.changed = function(e, o) {
+        },i.prototype.checkboxEvent = function (e, options){
+            var nt = tt[e.selector];
+            
+            f.on('checkbox(allChoose)', function(data){
+                var child = o(data.elem).parents('table').find('tbody input[type="checkbox"]');  
+                child.each(function(index, item){  
+                    item.checked = data.elem.checked;  
+                });  
+                f.render('checkbox');  
+            });
+            f.on('checkbox(*)',function(data){
+                var node;
+                for (var key in nt.mapping) {
+                    var treeNode = nt.mapping[key];
+                    if (treeNode.id == data.value) {
+                        node = treeNode.item;
+                        break;
+                    }
+                }
+                if (options.callback && options.callback.beforeCheck) {
+                    if (options.callback.beforeCheck(node)){
+                        // 允许勾选或取消勾选
+                        data.elem.checked ? data.othis.addClass('layui-form-checked') : data.othis.removeClass('layui-form-checked');
+                    }else{
+                        // 不允许勾选或取消勾选
+                        data.elem.checked = !data.elem.checked;
+                        !data.elem.checked ?  data.othis.removeClass('layui-form-checked') :data.othis.addClass('layui-form-checked')
+                    }
+                    return true;
+                }
+                node.checked = data.elem.checked;
+
+                var sib = o(data.elem).parents('table').find('tbody input[type="checkbox"]:checked').length;
+                var total = o(data.elem).parents('table').find('tbody input[type="checkbox"]').length;
+                if(sib == total){
+                    o(data.elem).parents('table').find('thead input[type="checkbox"]').prop("checked",true);
+                    f.render();
+                }else{
+                    o(data.elem).parents('table').find('thead input[type="checkbox"]').prop("checked",false);
+                    f.render();
+                }
+                if (options.callback && options.callback.onCheck) {
+                    return options.callback.onCheck(node);
+                }
+            }); 
+        },i.prototype.changed = function(e, o) {
             var r = this;
             if (o.pid == undefined || o.pid == null) {
                 e.children("input").on("change", function() {
@@ -550,7 +578,6 @@ layui.define("jquery", function(e) {
                     var a = this,
                         oi = new i(v = v || {}),
                         nt = tt[v.selector];
-                    
                    
                     for (var key in nt.mapping) {
                         var treeNode = nt.mapping[key];
@@ -706,6 +733,11 @@ layui.define("jquery", function(e) {
             for (var key in funs){
                 v[key] = funs[key];
             }
+            
+            if (e.callback) {
+                v.onCheck = e.callback.onCheck;
+            }
+
             return telem[0] ? v : a.error("layui.tree 没有找到" + e.elem + "元素");
         })
 });
