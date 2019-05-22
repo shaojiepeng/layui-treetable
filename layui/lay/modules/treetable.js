@@ -16,10 +16,6 @@ layui.define("jquery", function(e) {
 			leaf: "leaf"
 		},
         tt = {},
-        callback = {
-
-
-        },
         TreeTable = function() {
             this.mapping = {};
         },
@@ -141,7 +137,6 @@ layui.define("jquery", function(e) {
                         }(), "</tr>"].join(""));
                 e.append(str), l && (r.treeGird(e, n.children)), r.spreadGird(str, n, e.selector), i.drag && r.drag(str, n);
                 r.changed(str, n)
-                // typeof i.callback.onCheck === 'function' && r.onCheck(str, n)
             })
         },i.prototype.checkboxEvent = function (e, options){
             var nt = tt[e.selector];
@@ -154,14 +149,7 @@ layui.define("jquery", function(e) {
                 f.render('checkbox');  
             });
             f.on('checkbox(*)',function(data){
-                var node;
-                for (var key in nt.mapping) {
-                    var treeNode = nt.mapping[key];
-                    if (treeNode.id == data.value) {
-                        node = treeNode.item;
-                        break;
-                    }
-                }
+                var node = nt.mapping[data.value].item;
                 if (options.callback && options.callback.beforeCheck) {
                     if (options.callback.beforeCheck(node)){
                         // 允许勾选或取消勾选
@@ -169,9 +157,9 @@ layui.define("jquery", function(e) {
                     }else{
                         // 不允许勾选或取消勾选
                         data.elem.checked = !data.elem.checked;
-                        !data.elem.checked ?  data.othis.removeClass('layui-form-checked') :data.othis.addClass('layui-form-checked')
+                        !data.elem.checked ?  data.othis.removeClass('layui-form-checked') :data.othis.addClass('layui-form-checked');
+                        return true;
                     }
-                    return true;
                 }
                 node.checked = data.elem.checked;
 
@@ -372,9 +360,19 @@ layui.define("jquery", function(e) {
                 l = function() {
                     var treeNode = nt.mapping[nodeId];
                     var isOpened = treeNode.isOpened;
+                    if (isOpened){
+                        if (a.options.callback && a.options.callback.beforeCollapse && !a.options.callback.beforeCollapse(treeNode)) return true;
+                    }else{
+                        if (a.options.callback && a.options.callback.beforeExpand && !a.options.callback.beforeExpand(treeNode)) return true;
+                    }
                     a.expand(treeNode, !isOpened, e);
                     isOpened ? (e.data("spread", null), r.html(t.arrow[0]), ri.removeClass(t.branch[1]), ri.addClass(t.branch[0])) : (e.data("spread", !0), r.html(t.arrow[1]), ri.removeClass(t.branch[0]), ri.addClass(t.branch[1]))
                     treeNode.isOpened = !isOpened;
+                    if (isOpened){
+                        if (a.options.callback && a.options.callback.onCollapse && !a.options.callback.onCollapse(treeNode)) return true;
+                    }else{
+                        if (a.options.callback && a.options.callback.onExpand && !a.options.callback.onExpand(treeNode)) return true;
+                    }
                 };
             (r.on("click", l), ri.parent().on("dblclick", l))
         }, i.prototype.on = function(e) {

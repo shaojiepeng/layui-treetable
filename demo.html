@@ -152,17 +152,35 @@ layui.use(['form', 'treetable', 'layer'], function() {
         layout: layout,
         callback: {
             beforeCheck : treetableBeforeCheck,
-            onCheck : treetableOnCheck
+            onCheck : treetableOnCheck,
+            beforeCollapse : treetableBeforeCollapse,
+            onCollapse : treetableOnCollapse,
+            beforeExpand : treetableBeforeExpand,
+            onExpand : treetableOnExpand,
         }
     });
 
-    function treetableOnCheck(node){
-        alert(node);
-    }
-
     function treetableBeforeCheck(node){
-        return false;
-    }
+        alert("回调方法treetableBeforeCheck");
+        return true;
+    };
+    function treetableOnCheck(node){
+        alert("回调方法treetableOnCheck");
+    };
+    function treetableBeforeCollapse(){
+        alert("回调方法treetableBeforeCollapse");
+        return true;
+    };
+    function treetableOnCollapse(){
+        alert("回调方法treetableOnCollapse");
+    };
+    function treetableBeforeExpand(){
+        alert("回调方法treetableBeforeExpand");
+        return true;
+    };
+    function treetableOnExpand(){
+        alert("回调方法treetableOnExpand");
+    };
 
     form.render();
 
