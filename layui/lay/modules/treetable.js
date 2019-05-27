@@ -231,7 +231,6 @@ layui.define("jquery", function(e) {
                 for (var j = 0, len2 = childrendInputs.length; j < len2; j++) {
                     if (childrendInputs[j].getAttribute("data-parent-id") != "undefined") {
                         if (childrendInputs[j].checked) {
-                            console.log(1158)
                             hasOneChildrenInputCheck = true;
                             break;
                         }
@@ -643,13 +642,9 @@ layui.define("jquery", function(e) {
                         nt = tt[v.selector];
                     for (var key in nt.mapping) {
                         var treeNode = nt.mapping[key];
-                        if (treeNode.id == 'root') {
-                            continue;
-                        }
+                        if (treeNode.id == 'root') continue;
                         var isOpened = treeNode.isOpened;
-                        if (isOpened) {
-                            continue;
-                        }
+                        if (isOpened) continue;
                         var e = o('#' + treeNode.id),
                             r = (a.options, e.find(".layui-tree-spread")),
                             ri = e.find(".layui-tree-branch");
@@ -663,13 +658,9 @@ layui.define("jquery", function(e) {
                         nt = tt[v.selector];
                     for (var key in nt.mapping) {
                         var treeNode = nt.mapping[key];
-                        if (treeNode.id == 'root') {
-                            continue;
-                        }
+                        if (treeNode.id == 'root') continue;
                         var isOpened = treeNode.isOpened;
-                        if (!isOpened) {
-                            continue;
-                        }
+                        if (!isOpened)  continue;
                         var e = o('#' + treeNode.id),
                             r = (a.options, e.find(".layui-tree-spread")),
                             ri = e.find(".layui-tree-branch");
